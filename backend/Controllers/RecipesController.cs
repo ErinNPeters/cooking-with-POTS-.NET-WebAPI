@@ -1,4 +1,5 @@
 using backend.Models.DataLayer;
+using backend.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Metrics;
@@ -36,7 +37,7 @@ namespace backend.Controllers
 
         // GET: RecipeAll/1
         [HttpGet("RecipeAll/{id}")]
-        public async Task<ActionResult<Recipe>> GetRecipeAll(int id)
+        public async Task<ActionResult<RecipeDto>> GetRecipeAll(int id)
         {
             var recipe = await _customRepository.GetRecipeStepsIngredients(id);
 
@@ -45,7 +46,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            return recipe;
+            return new RecipeDto(recipe);
         }
 
         //[HttpPost]
