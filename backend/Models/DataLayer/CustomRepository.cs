@@ -38,20 +38,17 @@ namespace backend.Models.DataLayer
 
         public async Task SaveRecipeAll(Recipe recipe)
         {
-            using (var trasaction = context.Database.BeginTransactionAsync())
+            using (var transaction = await context.Database.BeginTransactionAsync())
             {
                 try
                 {
                    context.Recipes.Add(recipe);
                     context.SaveChanges();
-
-                    recipe.Ingredients.ForEach(ingredient => { ingredient.RecipeId = recipe.RecipeId; });
-                    recipe.Steps.ForEach(step => { step.RecipeId = recipe.RecipeId; });
-
+                    await transaction.CommitAsync();
                 }
                 catch(Exception ex)
                 {
-                    
+                    await transaction.RollbackAsync();
                 }
             }
 

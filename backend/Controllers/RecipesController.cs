@@ -49,17 +49,12 @@ namespace backend.Controllers
             return new RecipeDto(recipe);
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult<Recipe>> PostRecipeAll(Recipe recipe)
-        //{
-        //    await _customRepository.SaveRecipeAll(recipe);
-
-        //    if (recipe == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return recipe;
-        //}
+        [HttpPost("Add")]
+        public async Task<ActionResult<Recipe>> PostRecipeAll(RecipePreParse recipeIncoming)
+        {
+            var recipe = (recipeIncoming.GetRecipeWithLists());
+            await _customRepository.SaveRecipeAll(recipe);
+            return recipe;
+        }
     }
 }
