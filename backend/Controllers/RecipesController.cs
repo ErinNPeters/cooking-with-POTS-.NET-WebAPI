@@ -1,4 +1,5 @@
 using backend.Models.DataLayer;
+using backend.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Metrics;
@@ -36,29 +37,44 @@ namespace backend.Controllers
 
         // GET: RecipeAll/1
         [HttpGet("RecipeAll/{id}")]
-        public async Task<ActionResult<Recipe>> GetRecipeAll(int id)
+        public async Task<ActionResult<RecipeDto>> GetRecipeAll(int id)
         {
-            var recipe = await _customRepository.GetRecipeStepsIngredients(id);
+            var recipe = await _customRepository.GetRecipeAll(id);
 
             if (recipe == null)
             {
                 return NotFound();
             }
 
-            return recipe;
+            return new RecipeDto(recipe);
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult<Recipe>> PostRecipeAll(Recipe recipe)
-        //{
-        //    await _customRepository.SaveRecipeAll(recipe);
+        [HttpGet]
+        public async Task<IEnumerable<RecipeDto>> GetRecipes(string search, int page = 1, int pageSize = 20)
+        {
+            if(search == "ALL")
+            {
+                search = "";
+            }
+            var result = await _customRepository.GetRecipeAllSearch(search.ToLower());
+            List<RecipeDto> resultDtos = new List<RecipeDto>();
+            if(result.Count > 0)
+            {
+                foreach(var item in result)
+                {
+                    resultDtos.Add(new RecipeDto(item));
+                }
+                return resultDtos;
+            }
+            else { return null; }
+        }
 
-        //    if (recipe == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return recipe;
-        //}
+        [HttpPost("Add")]
+        public async Task<ActionResult<Recipe>> PostRecipeAll(RecipePreParse recipeIncoming)
+        {
+            var recipe = (recipeIncoming.GetRecipeWithLists());
+            await _customRepository.SaveRecipeAll(recipe);
+            return recipe;
+        }
     }
 }
