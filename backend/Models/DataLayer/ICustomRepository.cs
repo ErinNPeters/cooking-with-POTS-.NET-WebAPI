@@ -2,7 +2,8 @@
 {
     public interface ICustomRepository
     {
-        Task<Recipe> GetRecipeStepsIngredients(int id);
+        Task<Recipe> GetRecipeAll(int id);
+        Task<List<Recipe>> GetRecipeAllSearch(string criteria);
         Task SaveRecipeAll(Recipe recipe);
     }
 }
