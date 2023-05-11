@@ -10,13 +10,11 @@ namespace backend.Controllers
     [Route("[controller]")]
     public class RecipesController : ControllerBase
     {
-        private readonly ILogger<RecipesController> _logger;
         private readonly IRepository<Recipe> _recipeRepository;
         private readonly ICustomRepository _customRepository;
 
-        public RecipesController(ILogger<RecipesController> logger, IRepository<Recipe> recipeRepository, ICustomRepository customRepository)
+        public RecipesController(IRepository<Recipe> recipeRepository, ICustomRepository customRepository)
         {
-            _logger = logger;
             _recipeRepository = recipeRepository;
             _customRepository = customRepository;
         }
