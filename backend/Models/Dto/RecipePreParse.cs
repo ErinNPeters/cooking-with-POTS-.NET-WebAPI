@@ -33,12 +33,12 @@ namespace backend.Models.Dto
                 UserName = "erin@test.com"
             };
 
-            var ingredientsList = Ingredients.Split(new string[] { Environment.NewLine, "\\n", "/n", "\n" }, StringSplitOptions.None);
+            var ingredientsList = Ingredients.Split(new string[] { Environment.NewLine, "\\n", "/n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach(var ingredient in ingredientsList)
             {
                 recipe.Ingredients.Add(new Ingredient { Content = ingredient });
             }
-            var stepList = Steps.Split(new string[] { Environment.NewLine, "\\n", "/n", "\n" }, StringSplitOptions.None);
+            var stepList = Steps.Split(new string[] { Environment.NewLine, "\\n", "/n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var step in stepList)
             {
                 recipe.Steps.Add(new Step { Content = step });
