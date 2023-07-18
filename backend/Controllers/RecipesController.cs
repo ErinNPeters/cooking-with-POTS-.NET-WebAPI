@@ -74,5 +74,19 @@ namespace backend.Controllers
             await _customRepository.SaveRecipeAll(recipe);
             return recipe;
         }
+
+        // GET: Recipe/1
+        [HttpGet("ForEdit/{id}")]
+        public async Task<ActionResult<RecipePreParse>> GetRecipeForEdit(int id)
+        {
+            var recipe = await _customRepository.GetRecipeAll(id);
+
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            return new RecipePreParse(recipe);
+        }
     }
 }

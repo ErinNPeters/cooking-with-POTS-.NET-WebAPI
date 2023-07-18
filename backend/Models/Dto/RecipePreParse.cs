@@ -7,6 +7,8 @@ namespace backend.Models.Dto
 {
     public class RecipePreParse
     {
+        public int RecipeId { get; set; }
+
         [StringLength(100)]
         public string Title { get; set; } = null!;
 
@@ -34,7 +36,7 @@ namespace backend.Models.Dto
             };
 
             var ingredientsList = Ingredients.Split(new string[] { Environment.NewLine, "\\n", "/n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach(var ingredient in ingredientsList)
+            foreach (var ingredient in ingredientsList)
             {
                 recipe.Ingredients.Add(new Ingredient { Content = ingredient });
             }
@@ -45,5 +47,28 @@ namespace backend.Models.Dto
             }
             return recipe;
         }
+
+        public RecipePreParse()
+        {
+
+        }
+
+        public RecipePreParse(Recipe parsedRecipe)
+        {
+            RecipeId = parsedRecipe.RecipeId;
+            Title = parsedRecipe.Title;
+            SauceName = parsedRecipe.SauceName;
+            CrockPot = parsedRecipe.CrockPot;
+
+            foreach (var step in parsedRecipe.Steps)
+            {
+                Steps += step.Content + Environment.NewLine;
+            }
+            foreach (var ingredient in parsedRecipe.Ingredients)
+            {
+                Ingredients += ingredient.Content + Environment.NewLine;
+            }
+        }
     }
+
 }
