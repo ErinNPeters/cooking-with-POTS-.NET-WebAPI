@@ -85,5 +85,31 @@ namespace backend.Models.DataLayer
             }
 
         }
+
+        public async Task UpdateRecipeAll(Recipe recipe)
+        {
+            using (var transaction = await context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    //Remove existing Ingredients and Instructions
+                    var ingredientsToRemove = context.Ingredients.Where(r => r.RecipeId == recipe.RecipeId).ToList();
+                    context.RemoveRange(ingredientsToRemove);
+                    var instructionsToRemove = context.Steps.Where(r => r.RecipeId == recipe.RecipeId).ToList();
+                    context.RemoveRange(instructionsToRemove);
+
+                    context.Recipes.Update(recipe);
+                    context.SaveChanges();
+
+                    await transaction.CommitAsync();
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                }
+            }
+
+        }
+
     }
 }
