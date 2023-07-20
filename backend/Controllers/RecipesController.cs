@@ -48,7 +48,7 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<RecipeDto>> GetRecipes(string search, int page = 1, int pageSize = 20)
+        public async Task<IEnumerable<RecipeDto>?> GetRecipes(string search, int page = 1, int pageSize = 20)
         {
             if(search == "ALL")
             {
@@ -87,6 +87,14 @@ namespace backend.Controllers
             }
 
             return new RecipePreParse(recipe);
+        }
+
+        [HttpPut("Update")]
+        public async Task<IActionResult> PutRecipeAll(RecipePreParse recipeIncoming)
+        {
+            var recipe = (recipeIncoming.GetRecipeWithLists());
+            await _customRepository.UpdateRecipeAll(recipe);
+            return NoContent();
         }
     }
 }

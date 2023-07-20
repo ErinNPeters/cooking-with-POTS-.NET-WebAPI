@@ -27,6 +27,7 @@ namespace backend.Models.Dto
         {
             var recipe = new Recipe
             {
+                RecipeId = RecipeId,
                 Title = Title,
                 Created = DateTime.Now,
                 SauceName = SauceName,
