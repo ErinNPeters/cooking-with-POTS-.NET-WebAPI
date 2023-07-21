@@ -104,5 +104,11 @@ namespace backend.Controllers
             var recipeId = await _customRepository.SaveRecipeAll(recipe);
             return Ok(recipeId);
         }
+
+        [HttpPost("IsDuplicateRecipe")]
+        public bool IsDuplicateRecipe(RecipePreParse recipeIncoming)
+        {
+            return _customRepository.IsDuplicateRecipe(recipeIncoming);
+        }
     }
 }

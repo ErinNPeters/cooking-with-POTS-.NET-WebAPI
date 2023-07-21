@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using backend.Models.Dto;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace backend.Models.DataLayer
@@ -110,6 +111,15 @@ namespace backend.Models.DataLayer
                 }
             }
 
+        }
+
+        public bool IsDuplicateRecipe(RecipePreParse recipe)
+        {
+            var recipesSet = context.Recipes;
+            return recipesSet.Any(
+                e => e.Title == recipe.Title
+                && e.RecipeId != recipe.RecipeId
+            );
         }
 
     }
