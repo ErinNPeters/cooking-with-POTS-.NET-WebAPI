@@ -96,5 +96,13 @@ namespace backend.Controllers
             await _customRepository.UpdateRecipeAll(recipe);
             return NoContent();
         }
+
+        [HttpPost("AddIntResponse")]
+        public async Task<IActionResult> AddNoResponse(RecipePreParse recipeIncoming)
+        {
+            var recipe = (recipeIncoming.GetRecipeWithLists());
+            var recipeId = await _customRepository.SaveRecipeAll(recipe);
+            return Ok(recipeId);
+        }
     }
 }
