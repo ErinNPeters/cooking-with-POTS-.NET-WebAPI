@@ -68,7 +68,7 @@ namespace backend.Models.DataLayer
         }
 
 
-        public async Task SaveRecipeAll(Recipe recipe)
+        public async Task<int> SaveRecipeAll(Recipe recipe)
         {
             using (var transaction = await context.Database.BeginTransactionAsync())
             {
@@ -83,6 +83,7 @@ namespace backend.Models.DataLayer
                     await transaction.RollbackAsync();
                 }
             }
+            return recipe.RecipeId;
 
         }
 

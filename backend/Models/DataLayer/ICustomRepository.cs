@@ -4,7 +4,7 @@
     {
         Task<Recipe> GetRecipeAll(int id);
         Task<List<Recipe>> GetRecipeAllSearch(string criteria);
-        Task SaveRecipeAll(Recipe recipe);
+        Task<int> SaveRecipeAll(Recipe recipe);
         Task UpdateRecipeAll(Recipe recipe);
     }
 }
