@@ -71,7 +71,7 @@ namespace backend.Models.DataLayer
 
         }
 
-        public async Task<ApiResult<Recipe>> GetRecipeApiSearch(string criteria, int page, int pageSize)
+        public async Task<SearchGridResult<Recipe>> GetRecipeSearchGridResult(string criteria, int page, int pageSize)
         {
             var recipesSet = context.Recipes;
             var ingredientsSet = context.Ingredients;
@@ -97,7 +97,7 @@ namespace backend.Models.DataLayer
                                                                       || entity.Steps.Any(s => s.Content.ToLower().Contains(criteria)));
             }
 
-            return await ApiResult<Recipe>.CreateAsync(query.AsNoTracking(), page, pageSize);
+            return await SearchGridResult<Recipe>.CreateAsync(query.AsNoTracking(), page, pageSize);
         }
 
         public async Task<int> SaveRecipeAll(Recipe recipe)

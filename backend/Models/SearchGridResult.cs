@@ -2,7 +2,7 @@
 
 namespace backend.Models
 {
-    public class ApiResult<T>
+    public class SearchGridResult<T>
     {
         public List<T> Data { get; private set; }
         public int PageIndex { get; private set; }
@@ -18,7 +18,7 @@ namespace backend.Models
             get { return (PageIndex + 1) > TotalPages; }
         }
 
-        private ApiResult(List<T> data,
+        private SearchGridResult(List<T> data,
             int count,
             int pageIndex,
             int pageSize)
@@ -30,7 +30,7 @@ namespace backend.Models
             TotalPages = (int)Math.Ceiling(count / (double)PageSize);
         }
 
-        public static async Task<ApiResult<T>> CreateAsync(
+        public static async Task<SearchGridResult<T>> CreateAsync(
             IQueryable<T> source,
             int pageIndex,
             int pageSize)
@@ -39,7 +39,7 @@ namespace backend.Models
             source = source.Skip(pageIndex * pageSize).Take(pageSize);
             var data = await source.ToListAsync();
 
-            return new ApiResult<T>(
+            return new SearchGridResult<T>(
                 data,
                 count,
                 pageIndex,
