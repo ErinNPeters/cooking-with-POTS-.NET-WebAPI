@@ -71,13 +71,14 @@ namespace backend.Controllers
         }
 
         [HttpGet("SearchGridResult")]
-        public async Task<SearchGridResult<Recipe>?> GetRecipeSearchGridResult(string search, int pageIndex = 0, int pageSize = 20)
+        public async Task<SearchGridResult<Recipe>?> GetRecipeSearchGridResult(string search, int pageIndex = 0, int pageSize = 20, 
+                                                                                string? sortColumn = null, string? sortOrder = null)
         {
             if (search == "ALL")
             {
                 search = "";
             }
-            return await _customRepository.GetRecipeSearchGridResult(search.ToLower(), pageIndex, pageSize);
+            return await _customRepository.GetRecipeSearchGridResult(search.ToLower(), pageIndex, pageSize, sortColumn, sortOrder);
         }
 
         [HttpPost("Add")]
