@@ -1,3 +1,4 @@
+using backend.Models;
 using backend.Models.DataLayer;
 using backend.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
@@ -47,6 +48,8 @@ namespace backend.Controllers
             return new RecipeDto(recipe);
         }
 
+
+        // GET: Recipes
         [HttpGet]
         public async Task<IEnumerable<RecipeDto>?> GetRecipes(string search, int page = 0, int pageSize = 20)
         {
@@ -65,6 +68,16 @@ namespace backend.Controllers
                 return resultDtos;
             }
             else { return null; }
+        }
+
+        [HttpGet("api")]
+        public async Task<ApiResult<Recipe>?> GetApiRecipes(string search, int pageIndex = 0, int pageSize = 20)
+        {
+            if (search == "ALL")
+            {
+                search = "";
+            }
+            return await _customRepository.GetRecipeApiSearch(search.ToLower(), pageIndex, pageSize);
         }
 
         [HttpPost("Add")]
