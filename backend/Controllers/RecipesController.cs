@@ -48,13 +48,13 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<RecipeDto>?> GetRecipes(string search, int page = 1, int pageSize = 20)
+        public async Task<IEnumerable<RecipeDto>?> GetRecipes(string search, int page = 0, int pageSize = 20)
         {
             if(search == "ALL")
             {
                 search = "";
             }
-            var result = await _customRepository.GetRecipeAllSearch(search.ToLower());
+            var result = await _customRepository.GetRecipeAllSearch(search.ToLower(), page, pageSize);
             List<RecipeDto> resultDtos = new List<RecipeDto>();
             if(result.Count > 0)
             {
