@@ -1,3 +1,4 @@
+using backend.Models;
 using backend.Models.DataLayer;
 using backend.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
@@ -47,14 +48,16 @@ namespace backend.Controllers
             return new RecipeDto(recipe);
         }
 
+
+        // GET: Recipes
         [HttpGet]
-        public async Task<IEnumerable<RecipeDto>?> GetRecipes(string search, int page = 1, int pageSize = 20)
+        public async Task<IEnumerable<RecipeDto>?> GetRecipes(string search, int page = 0, int pageSize = 20)
         {
             if(search == "ALL")
             {
                 search = "";
             }
-            var result = await _customRepository.GetRecipeAllSearch(search.ToLower());
+            var result = await _customRepository.GetRecipeAllSearch(search.ToLower(), page, pageSize);
             List<RecipeDto> resultDtos = new List<RecipeDto>();
             if(result.Count > 0)
             {
@@ -65,6 +68,17 @@ namespace backend.Controllers
                 return resultDtos;
             }
             else { return null; }
+        }
+
+        [HttpGet("SearchGridResult")]
+        public async Task<SearchGridResult<Recipe>?> GetRecipeSearchGridResult(string search, int pageIndex = 0, int pageSize = 20, 
+                                                                                string? sortColumn = null, string? sortOrder = null)
+        {
+            if (search == "ALL")
+            {
+                search = "";
+            }
+            return await _customRepository.GetRecipeSearchGridResult(search.ToLower(), pageIndex, pageSize, sortColumn, sortOrder);
         }
 
         [HttpPost("Add")]
